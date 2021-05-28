@@ -1,5 +1,4 @@
-import service.country.CountryInterFace;
-import service.country.CountryService;
+package controller;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -8,8 +7,6 @@ import java.io.IOException;
 
 @WebServlet(name = "CountryController", value = "/CountryController")
 public class CountryController extends HttpServlet {
-    private CountryInterFace countryService = new CountryService();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

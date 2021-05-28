@@ -11,6 +11,6 @@
     <title>$Title$</title>
   </head>
   <body>
-  $END$
+  <a href="/StudentController">Link Danh Sach Hoc Sinh</a>
   </body>
 </html>
