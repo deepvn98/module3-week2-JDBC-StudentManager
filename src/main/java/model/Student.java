@@ -1,15 +1,16 @@
 package model;
 
 public class Student {
-    private  int id;
+    private int id;
     private String name;
     private int age;
     private Country country;
 
-    public Student(int id1, String name, int age) {
+    public Student() {
     }
 
-    public Student(String name, int age) {
+    public Student(int id, String name, int age) {
+        this.id = id;
         this.name = name;
         this.age = age;
     }
@@ -27,7 +28,9 @@ public class Student {
         this.country = country;
     }
 
-    public Student(int id1, String name) {
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
 
     public int getId() {

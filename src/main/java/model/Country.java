@@ -16,6 +16,14 @@ public class Country {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public Country(String name) {
         this.name = name;
     }

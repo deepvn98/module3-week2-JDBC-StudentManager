@@ -29,8 +29,18 @@ public class StudentController extends HttpServlet {
                 createForm(request, response);
                 break;
             case "update":
+                updateForm(request, response);
                 break;
             case "remove":
+                String jsp = "student/remove.jsp";
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher(jsp);
+                int id = Integer.parseInt(request.getParameter("id"));
+                Student student = studentService.findStudentById(id);
+                int id_country = student.getCountry().getId();
+                Country country =countryService.findCountryById(id_country);
+                request.setAttribute("country",country);
+                request.setAttribute("student",student);
+                requestDispatcher.forward(request, response);
                 break;
             case "search":
                 break;
@@ -38,6 +48,17 @@ public class StudentController extends HttpServlet {
                 showAll(request, response);
                 break;
         }
+    }
+
+    private void updateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String jsp = "student/update.jsp";
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(jsp);
+        int id = Integer.parseInt(request.getParameter("id"));
+        Student student = studentService.findStudentById(id);
+        List<Country> countryList = countryService.showAll();
+        request.setAttribute("countryList" ,countryList);
+        request.setAttribute("student",student);
+        requestDispatcher.forward(request, response);
     }
 
     private void createForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,18 +85,15 @@ public class StudentController extends HttpServlet {
         }
         switch (action){
             case "create":
-                String name = request.getParameter("name");
-                int age = Integer.parseInt(request.getParameter("age"));
-                Student student = new Student(name,age);
-                int country = Integer.parseInt(request.getParameter("country"));
-                Country country2 = countryService.findCountryById(country);
-                student.setCountry(country2);
-                studentService.createStudent(student);
-                response.sendRedirect("StudentController");
+                create(request, response);
                 break;
             case "update":
+                update(request, response);
                 break;
             case "remove":
+                int id = Integer.parseInt(request.getParameter("id"));
+                studentService.removeStudent(id);
+                response.sendRedirect("/StudentController");
                 break;
             case "search":
                 break;
@@ -83,6 +101,29 @@ public class StudentController extends HttpServlet {
                 showAll(request, response);
                 break;
         }
+    }
+
+    private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        int age = Integer.parseInt(request.getParameter("age"));
+        int country = Integer.parseInt(request.getParameter("country"));
+        Student student = new Student(name,age);
+        Country country1 = countryService.findCountryById(country);
+        student.setCountry(country1);
+        studentService.updateStudent(id,student);
+        response.sendRedirect("/StudentController");
+    }
+
+    private void create(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String name = request.getParameter("name");
+        int age = Integer.parseInt(request.getParameter("age"));
+        Student student = new Student(name,age);
+        int country = Integer.parseInt(request.getParameter("country"));
+        Country country2 = countryService.findCountryById(country);
+        student.setCountry(country2);
+        studentService.createStudent(student);
+        response.sendRedirect("/StudentController");
     }
 
 }

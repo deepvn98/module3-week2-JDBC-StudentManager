@@ -14,8 +14,7 @@
     <title>Danh Sách Học Sinh</title>
 </head>
 <body>
-
-<a href="/StudentController?action=create"></a>
+<h2><a href="/StudentController?action=create">Link Thêm mới</a></h2>
 <br><br>
         <h2 style="color: mediumblue">Danh sach Hoc Sinh</h2>
         <table border="1 solid" width="50%">
@@ -23,14 +22,18 @@
                 <th>Name</th>
                 <th>Age</th>
                 <th>Country</th>
+                <th colspan="2">Action</th>
             </tr>
             <c:forEach items="${students}" var="students">
                 <tr>
                     <td>${students.name}</td>
                     <td>${students.age}</td>
                     <td>${students.country.name}</td>
+                    <td><a href="/StudentController?action=update&id=${students.id}">Update</a></td>
+                    <td><a href="/StudentController?action=remove&id=${students.id}">Remove</a></td>
                 </tr>
             </c:forEach>
+
         </table>
 
 
