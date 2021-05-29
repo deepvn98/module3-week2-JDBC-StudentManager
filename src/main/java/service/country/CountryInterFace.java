@@ -14,7 +14,7 @@ public interface CountryInterFace {
 
     void removeCountry(int id);
 
-    Student findCountryById(int id);
+    Country findCountryById(int id);
 
-    Student findCountryByName(String name);
+    Country findCountryByName(String name);
 }

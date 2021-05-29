@@ -36,11 +36,23 @@ public class StudentService implements StudentInterFace {
     }
     @Override
     public void createStudent(Student student) {
+        String sql = "insert into student(name, age, id_country) value (?,?,?)";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,student.getName());
+            preparedStatement.setInt(2,student.getAge());
+            preparedStatement.setInt(3,student.getCountry().getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 
     @Override
     public void updateStudent(int id, Student student) {
+        String sql =
+        PreparedStatement preparedStatement = connection.prepareStatement()
 
     }
 

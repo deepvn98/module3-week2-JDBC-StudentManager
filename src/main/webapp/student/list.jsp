@@ -14,6 +14,9 @@
     <title>Danh Sách Học Sinh</title>
 </head>
 <body>
+
+<a href="/StudentController?action=create"></a>
+<br><br>
         <h2 style="color: mediumblue">Danh sach Hoc Sinh</h2>
         <table border="1 solid" width="50%">
             <tr>

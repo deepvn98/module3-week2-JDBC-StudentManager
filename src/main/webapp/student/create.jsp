@@ -23,11 +23,16 @@
         <tr>
             <td><input type="text" name="name" placeholder="Name"></td>
             <td><input type="number" name="age" placeholder="age"></td>
-            <td><input type="text" name="country" placeholder="country"></td>
+            <td>
+            <select name="country" id="">
+                <c:forEach items="${countrylist}" var="country">
+                    <option value="${country.id}">${country.name}</option>
+                </c:forEach>
+            </select>
+           </td>
+            <td><input type="submit" value="create"></td>
         </tr>
     </table>
-
-
 </form>
 
 </body>

@@ -6,7 +6,7 @@ public class Student {
     private int age;
     private Country country;
 
-    public Student() {
+    public Student(int id1, String name, int age) {
     }
 
     public Student(String name, int age) {
@@ -25,6 +25,9 @@ public class Student {
         this.name = name;
         this.age = age;
         this.country = country;
+    }
+
+    public Student(int id1, String name) {
     }
 
     public int getId() {

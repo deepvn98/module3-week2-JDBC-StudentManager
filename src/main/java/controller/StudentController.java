@@ -1,5 +1,6 @@
 package controller;
 
+import model.Country;
 import model.Student;
 import service.country.CountryInterFace;
 import service.country.CountryService;
@@ -42,6 +43,8 @@ public class StudentController extends HttpServlet {
     private void createForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = "student/create.jsp";
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(path);
+        List<Country> countryList =countryService.showAll();
+        request.setAttribute("countrylist",countryList);
         requestDispatcher.forward(request, response);
     }
 
@@ -61,7 +64,14 @@ public class StudentController extends HttpServlet {
         }
         switch (action){
             case "create":
-
+                String name = request.getParameter("name");
+                int age = Integer.parseInt(request.getParameter("age"));
+                Student student = new Student(name,age);
+                int country = Integer.parseInt(request.getParameter("country"));
+                Country country2 = countryService.findCountryById(country);
+                student.setCountry(country2);
+                studentService.createStudent(student);
+                response.sendRedirect("StudentController");
                 break;
             case "update":
                 break;
