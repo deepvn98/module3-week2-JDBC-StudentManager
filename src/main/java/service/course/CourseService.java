@@ -1,6 +1,7 @@
 package service.course;
 
 import model.Course;
+import model.Student;
 import service.connection.ConnectionJDBC;
 
 import java.sql.Connection;
@@ -15,7 +16,21 @@ public class CourseService implements CourseInterface{
 
     @Override
     public List<Course> showAll() {
-        return null;
+        List<Course> courses = new ArrayList<>();
+        String sql = "select * from course";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                Course course = new Course(id,name);
+                courses.add(course);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return courses;
     }
 
     @Override

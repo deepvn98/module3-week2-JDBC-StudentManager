@@ -25,6 +25,14 @@ public class Course {
         this.name = name;
     }
 
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
     public int getId() {
         return id;
     }

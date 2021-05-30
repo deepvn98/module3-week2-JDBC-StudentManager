@@ -22,6 +22,7 @@
                 <th>Name</th>
                 <th>Age</th>
                 <th>Country</th>
+                <th>Course</th>
                 <th colspan="2">Action</th>
             </tr>
             <c:forEach items="${students}" var="students">
@@ -29,6 +30,14 @@
                     <td>${students.name}</td>
                     <td>${students.age}</td>
                     <td>${students.country.name}</td>
+                    <td>
+                        <c:forEach items="${students.getCourses()}" var="course">
+                            <span>${course.name}</span>
+                        </c:forEach>
+                    </td>
+
+
+
                     <td><a href="/StudentController?action=update&id=${students.id}">Update</a></td>
                     <td><a href="/StudentController?action=remove&id=${students.id}">Remove</a></td>
                 </tr>

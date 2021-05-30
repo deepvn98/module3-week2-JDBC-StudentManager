@@ -1,8 +1,6 @@
 package service.course;
 
-import model.Country;
 import model.Course;
-import model.Student;
 import service.InterFaceService;
 
 import java.util.List;

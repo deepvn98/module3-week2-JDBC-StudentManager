@@ -42,37 +42,41 @@ public class StudentService implements StudentInterFace {
         return students;
     }
 
-
-
-    @Override
-    public List<Student> showStudentAndCourse() {
-        List<Student> students = new ArrayList<>();
-//        String sql = "select s.name,s.age,c.name from student s join country c on c.id = s.id_country";
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            while (resultSet.next()){
-//                String name = resultSet.getString("name");
-//                int age =
-//            }
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-        return students;
-    }
-
-
-
-
     @Override
     public void create(Student student) {
+
+    }
+
+    @Override
+    public void update(int id, Student student) {
+
+    }
+
+    @Override
+    public void save(Student student,int[] courses) {
+        int id_student = 0;
         String sql = "insert into student(name, age, id_country) value (?,?,?)";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1,student.getName());
             preparedStatement.setInt(2,student.getAge());
             preparedStatement.setInt(3,student.getCountry().getId());
             preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            while (resultSet.next()){
+                id_student = resultSet.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        String sql1 ="insert into class(id_student, id_course) value (?,?)";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql1);
+            for (int id:courses) {
+                preparedStatement.setInt(2,id);
+                preparedStatement.setInt(1,id_student);
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -80,7 +84,8 @@ public class StudentService implements StudentInterFace {
     }
 
     @Override
-    public void update(int id, Student student) {
+    public void update(int id, Student student, int [] courses) {
+        int id1 = 0;
         String sql ="update student set name = ?, age = ?,id_country = ? where id =?;";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -89,10 +94,26 @@ public class StudentService implements StudentInterFace {
             preparedStatement.setInt(3,student.getCountry().getId());
             preparedStatement.setInt(4,id);
             preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            while (resultSet.next()){
+                id1 = resultSet.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        String sql1 = "set id_course = ? where id_student = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql1);
+            for (int i = 0; i < courses.length; i++){
+                preparedStatement.setInt(1,courses[i]);
+                preparedStatement.setInt(2,id1);
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
+
 
     @Override
     public void remove(int id) {
@@ -108,6 +129,7 @@ public class StudentService implements StudentInterFace {
 
         }
     }
+
 
     @Override
     public Student findById(int id) {
@@ -144,11 +166,5 @@ public class StudentService implements StudentInterFace {
     public Student findByName(String name) {
         return null;
     }
-
-    @Override
-    public void saver(Student student, int[] course) {
-
-    }
-
 
 }

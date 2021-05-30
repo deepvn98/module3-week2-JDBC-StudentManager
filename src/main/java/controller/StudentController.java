@@ -1,9 +1,12 @@
 package controller;
 
 import model.Country;
+import model.Course;
 import model.Student;
 import service.country.CountryInterFace;
 import service.country.CountryService;
+import service.course.CourseInterface;
+import service.course.CourseService;
 import service.student.StudentInterFace;
 import service.student.StudentService;
 
@@ -17,6 +20,7 @@ import java.util.List;
 public class StudentController extends HttpServlet {
     private StudentInterFace studentService = new StudentService();
     private CountryInterFace countryService = new CountryService();
+    private CourseInterface courseService = new CourseService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,15 +36,7 @@ public class StudentController extends HttpServlet {
                 updateForm(request, response);
                 break;
             case "remove":
-                String jsp = "student/remove.jsp";
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher(jsp);
-                int id = Integer.parseInt(request.getParameter("id"));
-                Student student = studentService.findById(id);
-                int id_country = student.getCountry().getId();
-                Country country =countryService.findById(id_country);
-                request.setAttribute("country",country);
-                request.setAttribute("student",student);
-                requestDispatcher.forward(request, response);
+                removeForm(request, response);
                 break;
             case "search":
                 break;
@@ -48,6 +44,18 @@ public class StudentController extends HttpServlet {
                 showAll(request, response);
                 break;
         }
+    }
+
+    private void removeForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String jsp = "student/remove.jsp";
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(jsp);
+        int id = Integer.parseInt(request.getParameter("id"));
+        Student student = studentService.findById(id);
+        int id_country = student.getCountry().getId();
+        Country country =countryService.findById(id_country);
+        request.setAttribute("country",country);
+        request.setAttribute("student",student);
+        requestDispatcher.forward(request, response);
     }
 
     private void updateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -65,7 +73,9 @@ public class StudentController extends HttpServlet {
         String path = "student/create.jsp";
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(path);
         List<Country> countryList =countryService.showAll();
+        List<Course> courses = courseService.showAll();
         request.setAttribute("countrylist",countryList);
+        request.setAttribute("course",courses);
         requestDispatcher.forward(request, response);
     }
 
@@ -91,9 +101,7 @@ public class StudentController extends HttpServlet {
                 update(request, response);
                 break;
             case "remove":
-                int id = Integer.parseInt(request.getParameter("id"));
-                studentService.remove(id);
-                response.sendRedirect("/StudentController");
+                remove(request, response);
                 break;
             case "search":
                 break;
@@ -101,6 +109,12 @@ public class StudentController extends HttpServlet {
                 showAll(request, response);
                 break;
         }
+    }
+
+    private void remove(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        studentService.remove(id);
+        response.sendRedirect("/StudentController");
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -122,7 +136,12 @@ public class StudentController extends HttpServlet {
         int country = Integer.parseInt(request.getParameter("country"));
         Country country2 = countryService.findById(country);
         student.setCountry(country2);
-        studentService.create(student);
+        String [] course1 = request.getParameterValues("course");
+        int[] courses =new int[course1.length];
+        for (int i = 0; i< courses.length; i++){
+            courses[i] = Integer.parseInt(course1[i]);
+        }
+        studentService.save(student,courses);
         response.sendRedirect("/StudentController");
     }
 

@@ -19,6 +19,7 @@
             <th>Name</th>
             <th>Age</th>
             <th>Country</th>
+            <th>Course</th>
         </tr>
         <tr>
             <td><input type="text" name="name" placeholder="Name"></td>
@@ -30,6 +31,13 @@
                 </c:forEach>
             </select>
            </td>
+            <td>
+                <select name="course" id="course" multiple>
+                    <c:forEach items="${course}" var="c">
+                        <option value="${c.id}">${c.name}</option>
+                    </c:forEach>
+                </select>
+            </td>
             <td><input type="submit" value="create"></td>
         </tr>
     </table>
