@@ -24,9 +24,16 @@
             <td><input type="text" name="name" value="${student.getName()}"></td>
             <td><input type="number" name="age" value="${student.getAge()}"></td>
             <td>
-                <select name="country" id="">
+                <select name="country">
                     <c:forEach items="${countryList}" var="countryList">
                         <option value="${countryList.id}">${countryList.name}</option>
+                    </c:forEach>
+                </select>
+            </td>
+            <td>
+                <select name="courses" multiple>
+                    <c:forEach items="${courses}" var="courses" >
+                        <option value="${courses.id}">${courses.name}</option>
                     </c:forEach>
                 </select>
             </td>

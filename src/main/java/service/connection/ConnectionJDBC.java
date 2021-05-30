@@ -13,8 +13,9 @@ public class ConnectionJDBC {
     private ConnectionJDBC(Connection connection) {
         this.connection = connection;
     }
-    public static Connection getConnection(){
-        if (connection == null){
+
+    public static Connection getConnection() {
+        if (connection == null) {
 
             try {
                 Class.forName("com.mysql.jdbc.Driver");

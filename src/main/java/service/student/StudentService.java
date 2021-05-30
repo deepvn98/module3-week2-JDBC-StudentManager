@@ -85,8 +85,8 @@ public class StudentService implements StudentInterFace {
 
     @Override
     public void update(int id, Student student, int [] courses) {
-        int id1 = 0;
-        String sql ="update student set name = ?, age = ?,id_country = ? where id =?;";
+        int id_student = 0;
+        String sql ="update student set name = ?, age = ?,id_country = ? where id =?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,student.getName());
@@ -94,19 +94,15 @@ public class StudentService implements StudentInterFace {
             preparedStatement.setInt(3,student.getCountry().getId());
             preparedStatement.setInt(4,id);
             preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            while (resultSet.next()){
-                id1 = resultSet.getInt(1);
-            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        String sql1 = "set id_course = ? where id_student = ?";
+        String sql1 = "update class set id_course = ? where id_student = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql1);
-            for (int i = 0; i < courses.length; i++){
+            for (int i = 0; i< courses.length; i++ ){
                 preparedStatement.setInt(1,courses[i]);
-                preparedStatement.setInt(2,id1);
+                preparedStatement.setInt(2,id);
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException throwables) {

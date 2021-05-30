@@ -64,6 +64,8 @@ public class StudentController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         Student student = studentService.findById(id);
         List<Country> countryList = countryService.showAll();
+        List<Course> courses = courseService.showAll();
+        request.setAttribute("courses", courses);
         request.setAttribute("countryList" ,countryList);
         request.setAttribute("student",student);
         requestDispatcher.forward(request, response);
@@ -125,7 +127,12 @@ public class StudentController extends HttpServlet {
         Student student = new Student(name,age);
         Country country1 = countryService.findById(country);
         student.setCountry(country1);
-        studentService.update(id,student);
+        String[] course1 = request.getParameterValues("courses");
+        int [] courses = new int[course1.length];
+        for (int i = 0;i < courses.length;i++){
+            courses[i] = Integer.parseInt(course1[i]);
+        }
+        studentService.update(id,student,courses);
         response.sendRedirect("/StudentController");
     }
 
