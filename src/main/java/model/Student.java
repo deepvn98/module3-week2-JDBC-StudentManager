@@ -1,12 +1,30 @@
 package model;
 
+import java.util.List;
+
 public class Student {
     private int id;
     private String name;
     private int age;
     private Country country;
+    private List<Course> courses;
 
     public Student() {
+    }
+
+    public Student(String name, int age, Country country, List<Course> courses) {
+        this.name = name;
+        this.age = age;
+        this.country = country;
+        this.courses = courses;
+    }
+
+    public Student(int id, String name, int age, Country country, List<Course> courses) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.country = country;
+        this.courses = courses;
     }
 
     public Student(int id, String name, int age) {
@@ -31,6 +49,14 @@ public class Student {
     public Student(String name, int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
     public int getId() {

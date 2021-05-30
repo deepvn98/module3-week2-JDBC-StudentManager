@@ -35,22 +35,22 @@ public class CountryService implements CountryInterFace{
     }
 
     @Override
-    public void createCountry(Country country) {
+    public void create(Country country) {
 
     }
 
     @Override
-    public void updateCountry(int id, Country country) {
+    public void update(int id, Country country) {
 
     }
 
     @Override
-    public void removeCountry(int id) {
+    public void remove(int id) {
 
     }
 
     @Override
-    public Country findCountryById(int id) {
+    public Country findById(int id) {
         Country country = null;
         String sql = "select * from country where id = ?";
         try {
@@ -70,7 +70,12 @@ public class CountryService implements CountryInterFace{
     }
 
     @Override
-    public Country findCountryByName(String name) {
+    public List<Country> findListById(int id) {
+        return null;
+    }
+
+    @Override
+    public Country findByName(String name) {
         return null;
     }
 }

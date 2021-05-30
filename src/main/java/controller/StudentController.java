@@ -35,9 +35,9 @@ public class StudentController extends HttpServlet {
                 String jsp = "student/remove.jsp";
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher(jsp);
                 int id = Integer.parseInt(request.getParameter("id"));
-                Student student = studentService.findStudentById(id);
+                Student student = studentService.findById(id);
                 int id_country = student.getCountry().getId();
-                Country country =countryService.findCountryById(id_country);
+                Country country =countryService.findById(id_country);
                 request.setAttribute("country",country);
                 request.setAttribute("student",student);
                 requestDispatcher.forward(request, response);
@@ -54,7 +54,7 @@ public class StudentController extends HttpServlet {
         String jsp = "student/update.jsp";
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(jsp);
         int id = Integer.parseInt(request.getParameter("id"));
-        Student student = studentService.findStudentById(id);
+        Student student = studentService.findById(id);
         List<Country> countryList = countryService.showAll();
         request.setAttribute("countryList" ,countryList);
         request.setAttribute("student",student);
@@ -92,7 +92,7 @@ public class StudentController extends HttpServlet {
                 break;
             case "remove":
                 int id = Integer.parseInt(request.getParameter("id"));
-                studentService.removeStudent(id);
+                studentService.remove(id);
                 response.sendRedirect("/StudentController");
                 break;
             case "search":
@@ -109,9 +109,9 @@ public class StudentController extends HttpServlet {
         int age = Integer.parseInt(request.getParameter("age"));
         int country = Integer.parseInt(request.getParameter("country"));
         Student student = new Student(name,age);
-        Country country1 = countryService.findCountryById(country);
+        Country country1 = countryService.findById(country);
         student.setCountry(country1);
-        studentService.updateStudent(id,student);
+        studentService.update(id,student);
         response.sendRedirect("/StudentController");
     }
 
@@ -120,9 +120,9 @@ public class StudentController extends HttpServlet {
         int age = Integer.parseInt(request.getParameter("age"));
         Student student = new Student(name,age);
         int country = Integer.parseInt(request.getParameter("country"));
-        Country country2 = countryService.findCountryById(country);
+        Country country2 = countryService.findById(country);
         student.setCountry(country2);
-        studentService.createStudent(student);
+        studentService.create(student);
         response.sendRedirect("/StudentController");
     }
 
