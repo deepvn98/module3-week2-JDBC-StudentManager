@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Admin
@@ -24,6 +25,13 @@
             <td>${student.name} </td>
             <td>${student.age}</td>
             <td>${country.name}</td>
+            <td>
+                <select multiple >
+                    <c:forEach items="${courses}" var="courses">
+                        <option value="${courses.id}">${courses.name}</option>
+                    </c:forEach>
+                </select>
+            </td>
             <td><input type="submit" value="Remove"></td>
         </tr>
     </table>

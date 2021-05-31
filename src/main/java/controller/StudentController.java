@@ -53,6 +53,8 @@ public class StudentController extends HttpServlet {
         Student student = studentService.findById(id);
         int id_country = student.getCountry().getId();
         Country country =countryService.findById(id_country);
+        List<Course> courses = student.getCourses();
+        request.setAttribute("courses" ,courses);
         request.setAttribute("country",country);
         request.setAttribute("student",student);
         requestDispatcher.forward(request, response);

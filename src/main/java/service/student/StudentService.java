@@ -85,7 +85,6 @@ public class StudentService implements StudentInterFace {
 
     @Override
     public void update(int id, Student student, int [] courses) {
-        int id_student = 0;
         String sql ="update student set name = ?, age = ?,id_country = ? where id =?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -97,12 +96,21 @@ public class StudentService implements StudentInterFace {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        String sql1 = "update class set id_course = ? where id_student = ?";
+        String sql2 =  "delete from class where id_student = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql2);
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        String sql1 = "insert into class(id_student, id_course) value (?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql1);
             for (int i = 0; i< courses.length; i++ ){
-                preparedStatement.setInt(1,courses[i]);
-                preparedStatement.setInt(2,id);
+                preparedStatement.setInt(2,courses[i]);
+                preparedStatement.setInt(1,id);
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException throwables) {
@@ -113,6 +121,15 @@ public class StudentService implements StudentInterFace {
 
     @Override
     public void remove(int id) {
+        String sql1 = "delete from class where id =?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql1);
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         String sql = "delete from student where id =?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
